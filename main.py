@@ -50,7 +50,7 @@ def game():
     score = 0
     best_score = 0
     start_time = time.time()
-    round_time = 5
+    round_time = 30
     game_over = False
 
     running = True
