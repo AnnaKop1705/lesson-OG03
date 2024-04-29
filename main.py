@@ -5,6 +5,7 @@ pygame.init()
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+background_img = pygame.image.load('img/fone.jpg')
 
 pygame.display.set_caption('Охота на уточек')
 icon = pygame.image.load('img/icon.jpg')
@@ -17,11 +18,9 @@ target_height = 80
 target_x = random.randint(0, SCREEN_WIDTH - target_width)
 target_y = random.randint(0, SCREEN_HEIGHT - target_height)
 
-color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-
 running = True
 while running:
-    screen.fill(color)
+    screen.blit(background_img, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
