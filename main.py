@@ -36,6 +36,9 @@ def show_round_result(score, best_score):
     screen.blit(round_result_text, (SCREEN_WIDTH // 2 - 120, SCREEN_HEIGHT // 2 - 20))
     best_score_text = font.render('Лучший результат: ' + str(best_score), True, (255, 255, 255))
     screen.blit(best_score_text, (SCREEN_WIDTH // 2 - 120, SCREEN_HEIGHT // 2 + 20))
+    if score == best_score:
+        new_record_text = font.render('Отлично!', True, (255, 0, 0))
+        screen.blit(new_record_text, (SCREEN_WIDTH // 2 - 60, SCREEN_HEIGHT // 2 -60))
 
 def show_restart_button():
     restart_text = font.render('Новый раунд', True, (0, 255, 0))
