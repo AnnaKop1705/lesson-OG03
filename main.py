@@ -1,5 +1,7 @@
+import time
 import pygame
 import random
+
 pygame.init()
 
 SCREEN_WIDTH = 800
@@ -24,22 +26,47 @@ def show_score(score):
     score_text = font.render('Очки: ' + str(score), True, (255, 255, 255))
     screen.blit(score_text, (10, 10))
 
-score = 0
-running = True
-while running:
-    screen.blit(background_img, (0, 0))
-    show_score(score)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            if target_x < mouse_x < target_x + target_width and target_y < mouse_y < target_y + target_height:
-                score += 1
-                target_x = random.randint(0, SCREEN_WIDTH - target_width)
-                target_y = random.randint(0, SCREEN_HEIGHT - target_height)
+def show_timer(timer):
+    timer_text = font.render('Время: ' + str(timer), True, (255, 255, 255))
+    screen.blit(timer_text, (SCREEN_WIDTH - 150, 10))
 
-    screen.blit(target_img, (target_x, target_y))
-    pygame.display.update()
+def show_best_score(best_score):
+    best_score_text = font.render('Лучший результат: ' + str(best_score), True, (255, 255, 255))
+    screen.blit(best_score_text, (10, 50))
 
-pygame.quit()
+def game():
+    global target_x, target_y
+    score = 0
+    best_score = 0
+    start_time = time.time()
+    round_time = 30
+
+    running = True
+    while running:
+        screen.blit(background_img, (0, 0))
+        show_score(score)
+        show_best_score(best_score)
+        time_left = round_time - int(time.time() - start_time)
+        show_timer(max(0, time_left))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if target_x < mouse_x < target_x + target_width and target_y < mouse_y < target_y + target_height:
+                    score += 1
+                    target_x = random.randint(0, SCREEN_WIDTH - target_width)
+                    target_y = random.randint(0, SCREEN_HEIGHT - target_height)
+
+        screen.blit(target_img, (target_x, target_y))
+        pygame.display.update()
+
+        if time_left <= 0:
+            if score > best_score:
+                best_score = score
+            score = 0
+            start_time = time.time()
+
+    pygame.quit()
+
+game()
